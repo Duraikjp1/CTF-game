@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PPG ARTS – COMPUTER SCIENCE CTF</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body oncontextmenu="return false;">
+    <div class="container">
+        <header class="hero">
+            <div class="logo-container">
+                <img src="assets/logo.png" alt="PPG Logo" class="logo" onerror="this.style.display='none'">
+                <div class="logo-placeholder" id="logo-placeholder">🏛️</div>
+            </div>
+            <h1 class="main-title">PPG ARTS – COMPUTER SCIENCE CTF</h1>
+            <p class="subtitle">Forensics • Cryptography • QR Analysis • Logic</p>
+            <p class="organizer">Department of Computer Science<br>PPG Arts and Science College</p>
+        </header>
+
+        <div class="content">
+            <div class="event-info">
+                <h2>Welcome to the Ultimate Cybersecurity Challenge</h2>
+                <p>Test your skills in digital forensics, cryptography, and logical thinking. 
+                   Analyze evidence, decode messages, and solve complex puzzles to prove your expertise!</p>
+            </div>
+
+            <div class="categories">
+                <h3>Challenge Categories:</h3>
+                <div class="category-grid">
+                    <div class="category-card">
+                        <div class="category-icon">🔍</div>
+                        <h4>Digital Forensics</h4>
+                        <p>Analyze files, extract metadata, uncover hidden information</p>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">🔐</div>
+                        <h4>Cryptography</h4>
+                        <p>Break codes, decrypt messages, master classical and modern ciphers</p>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">📱</div>
+                        <h4>QR Code Analysis</h4>
+                        <p>Decode hidden messages from QR codes and visual puzzles</p>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">🧠</div>
+                        <h4>Advanced Challenges</h4>
+                        <p>Multi-layer puzzles combining multiple techniques</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rules">
+                <h3>Competition Rules:</h3>
+                <ul>
+                    <li>Teams of up to 4 members</li>
+                    <li>90-minute time limit</li>
+                    <li>Each correct flag earns points</li>
+                    <li>No external tools allowed (except basic image viewers)</li>
+                    <li>Teacher reserves the right to disqualify any team for cheating</li>
+                </ul>
+            </div>
+
+            <div class="cta-container">
+                <button class="cta-button" onclick="window.location.href='ctf.html'">
+                    Enter CTF
+                </button>
+                <p class="cta-subtitle">Ready to test your cybersecurity skills?</p>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 PPG Arts and Science College - Department of Computer Science</p>
+        </footer>
+    </div>
+
+    <script>
+        // Disable right-click, copy, and paste for basic anti-cheat
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        document.addEventListener('selectstart', event => event.preventDefault());
+        document.addEventListener('dragstart', event => event.preventDefault());
+        
+        // Keyboard shortcuts disabled
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && (e.key === 'c' || e.key === 'v' || e.key === 'x' || e.key === 'a')) {
+                e.preventDefault();
+            }
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>

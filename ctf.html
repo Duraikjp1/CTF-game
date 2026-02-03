@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PPG CTF Challenge Portal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body oncontextmenu="return false;">
+    <!-- Registration Modal -->
+    <div id="registrationModal" class="modal">
+        <div class="modal-content">
+            <h2>Team Registration</h2>
+            <p>Enter your team name to begin the challenge</p>
+            <input type="text" id="teamNameInput" class="team-input" placeholder="Team Name" maxlength="30">
+            <button onclick="registerTeam()" class="register-btn">Start Challenge</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <header class="ctf-header">
+            <div class="header-logo">
+                <img src="assets/logo.png" alt="PPG Logo" class="header-logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <div class="header-logo-placeholder" style="display:none;">🏛️</div>
+            </div>
+            <h1>PPG ARTS – CTF CHALLENGE PORTAL</h1>
+            <div id="teamDisplay" style="margin-top: 20px; font-size: 1.2em; color: var(--secondary-color);"></div>
+        </header>
+
+        <!-- Timer Section -->
+        <div class="timer-container">
+            <h2>Time Remaining</h2>
+            <div id="timer" class="timer">01:30:00</div>
+            <button onclick="startTimer()" id="startTimerBtn" class="download-btn">Start Timer</button>
+            <button onclick="resetTimer()" id="resetTimerBtn" class="download-btn">Reset Timer (1 Chance)</button>
+        </div>
+
+        <!-- Progress Section -->
+        <div class="progress-bar">
+            <div id="progressFill" class="progress-fill" style="width: 0%"></div>
+        </div>
+
+        <!-- Messages Container -->
+        <div id="messageContainer"></div>
+
+        <!-- Rounds Container -->
+        <div class="rounds-container">
+            <!-- Round 1: PDF Forensics -->
+            <div class="round-card" id="round1">
+                <div class="round-header">
+                    <span class="round-title">Round 1: PDF Forensics</span>
+                    <span class="round-points">10 pts</span>
+                </div>
+                <div class="challenge-content">
+                    <p>Digital evidence has been discovered in a PDF file. Extract the hidden information from the metadata.</p>
+                    <p><strong>Challenge:</strong> Find the flag hidden in the PDF Author metadata.</p>
+                    <div style="text-align: center; margin: 20px 0;">
+                        <a href="round1.pdf" target="_blank" class="download-btn">📄 Download PDF</a>
+                    </div>
+                </div>
+                <input type="text" class="flag-input" id="flag1" placeholder="Enter flag (format: PPG{...})" onpaste="return false">
+                <button class="submit-btn" onclick="submitFlag(1)">Submit Flag</button>
+            </div>
+
+            <!-- Round 2: Image EXIF -->
+            <div class="round-card" id="round2">
+                <div class="round-header">
+                    <span class="round-title">Round 2: Image Data</span>
+                    <span class="round-points">10 pts</span>
+                </div>
+                <div class="challenge-content">
+                    <p>An image contains hidden data that reveals a secret message.</p>
+                    <p><strong>Challenge:</strong> Extract the flag from the image data.</p>
+                    <div style="text-align: center; margin: 20px 0;">
+                        <a href="round2.jpg" target="_blank" class="download-btn">🖼️ Download Image</a>
+                    </div>
+                </div>
+                <input type="text" class="flag-input" id="flag2" placeholder="Enter flag (format: PPG{...})" onpaste="return false">
+                <button class="submit-btn" onclick="submitFlag(2)">Submit Flag</button>
+            </div>
+
+            <!-- Round 3: Cryptography -->
+            <div class="round-card" id="round3">
+                <div class="round-header">
+                    <span class="round-title">Round 3: Cryptography</span>
+                    <span class="round-points">10 pts</span>
+                </div>
+                <div class="challenge-content">
+                    <p>A secret message has been encrypted using classical cryptography techniques.</p>
+                    <p><strong>Challenge:</strong> Decode the following ciphertext:</p>
+                    <div class="cipher-text">UFBHe0NSWVBUT19NT0RFXQ==</div>
+                    <p><em>Hint: This uses a common encoding technique followed by simple substitution.</em></p>
+                </div>
+                <input type="text" class="flag-input" id="flag3" placeholder="Enter flag (format: PPG{...})" onpaste="return false">
+                <button class="submit-btn" onclick="submitFlag(3)">Submit Flag</button>
+            </div>
+
+            <!-- Round 4: QR Code Analysis -->
+            <div class="round-card" id="round4">
+                <div class="round-header">
+                    <span class="round-title">Round 4: QR Analysis</span>
+                    <span class="round-points">10 pts</span>
+                </div>
+                <div class="challenge-content">
+                    <p>A QR code contains a multi-layered puzzle.</p>
+                    <p><strong>Challenge:</strong> Scan the QR code, decode the message, and submit the final flag.</p>
+                    <div style="text-align: center; margin: 20px 0;">
+                        <a href="assets/round4.png" target="_blank" class="download-btn">📱 Download QR Image</a>
+                    </div>
+                    <p><em>Tools needed: QR scanner app</em></p>
+                </div>
+                <input type="text" class="flag-input" id="flag4" placeholder="Enter flag (format: PPG{...})" onpaste="return false">
+                <button class="submit-btn" onclick="submitFlag(4)">Submit Flag</button>
+            </div>
+
+            <!-- Round 5: Advanced Multi-Layer -->
+            <div class="round-card" id="round5">
+                <div class="round-header">
+                    <span class="round-title">Round 5: Advanced Challenge</span>
+                    <span class="round-points">20 pts</span>
+                </div>
+                <div class="challenge-content">
+                    <p>The final challenge combines multiple encoding techniques.</p>
+                    <p><strong>Challenge:</strong> Navigate through multiple layers of encoding:</p>
+                    <ol>
+                        <li>Binary → ASCII conversion</li>
+                        <li>Base64 decoding</li>
+                        <li>Caesar cipher decryption</li>
+                        <li>XOR with key: 42</li>
+                    </ol>
+                    <div style="text-align: center; margin: 20px 0;">
+                        <button onclick="window.open('advanced.html', '_blank')" class="download-btn">🧠 Start Advanced Challenge</button>
+                    </div>
+                </div>
+                <input type="text" class="flag-input" id="flag5" placeholder="Enter flag (format: PPG{...})" onpaste="return false">
+                <button class="submit-btn" onclick="submitFlag(5)">Submit Flag</button>
+            </div>
+        </div>
+
+        <!-- Leaderboard Section -->
+        <div class="leaderboard">
+            <h2>🏆 Live Leaderboard</h2>
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Team</th>
+                        <th>Score</th>
+                        <th>Solved</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboardBody">
+                    <!-- Leaderboard entries will be populated here -->
+                </tbody>
+            </table>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 PPG Arts and Science College - Department of Computer Science</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

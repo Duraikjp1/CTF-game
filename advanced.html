@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Challenge - PPG CTF</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body oncontextmenu="return false;">
+    <div class="container">
+        <header class="advanced-challenge">
+            <h1>🧠 ADVANCED MULTI-LAYER CHALLENGE</h1>
+            <p>This challenge requires you to decode data through multiple layers</p>
+        </header>
+
+        <!-- Step Indicator -->
+        <div class="step-indicator">
+            <div class="step active" id="step1" data-step="1">
+                Binary
+            </div>
+            <div class="step" id="step2" data-step="2">
+                Base64
+            </div>
+            <div class="step" id="step3" data-step="3">
+                Caesar
+            </div>
+            <div class="step" id="step4" data-step="4">
+                XOR
+            </div>
+        </div>
+
+        <!-- Progress -->
+        <div class="progress-bar">
+            <div id="advancedProgress" class="progress-fill" style="width: 0%"></div>
+        </div>
+
+        <!-- Messages -->
+        <div id="advancedMessage"></div>
+
+        <!-- Challenge Content -->
+        <div class="advanced-challenge">
+            <!-- Step 1: Binary to ASCII -->
+            <div id="binaryStep" class="step-content">
+                <h2>Step 1: Binary Decoding</h2>
+                <div class="hint-section">
+                    <h3>Binary Data</h3>
+                    <div class="cipher-text">
+01010000 01010000 01000111 01111011 01000000 01000100 01010110 01000001 01001110 01000011 01000101 01000100 01011111 01000011 01001000 01000001 01001100 01001100 01000101 01001110 01000111 01000101 01011111 01010011 01010101 01000011 01000011 01000101 01010011 01010011 01011111 01010000 01010010 01001111 01000110 01001001 01010100 01000001 01000010 01001100 01000101 01011111 01001011 01000101 01011001 01010011 01011111 01000011 01000001 01001110 01000010 01000101 01001100 01000001 01010011 01000101 01000100 01011111 01010100 01001000 01000101 01010011 01000101 01011111 01000100 01001001 01000110 01000110 01000101 01010010 01000101 01001110 01010100 01011111 01010100 01001000 01000001 01001110 01001111 01010100 01001000 01000101 01010010 01011111 01010011 01010101 01010000 01000101 01010010 01001001 01001111 01010010 01011111 01000101 01001110 01000011 01001111 01000100 01001001 01001110 01000111 01011111 01010011 01010101 01010000 01000101 01010010 01010011 01000101 01000011 01010010 01000101 01010100 01011111 01001101 01000101 01010011 01010011 01000001 01000111 01000101 01010011 01011111 01001000 01001001 01000100 01000100 01000101 01001110 01011111
+                    </div>
+                    <p><strong>Hint:</strong> Convert each 8-bit binary sequence to ASCII characters.</p>
+                </div>
+                <input type="text" id="binaryAnswer" class="flag-input" placeholder="Enter decoded ASCII text">
+                <button class="submit-btn" onclick="checkStep1()">Submit Step 1</button>
+            </div>
+
+            <!-- Step 2: Base64 Decoding -->
+            <div id="base64Step" class="step-content" style="display: none;">
+                <h2>Step 2: Base64 Decoding</h2>
+                <div class="hint-section">
+                    <h3>Base64 Encoded Data</h3>
+                    <div class="cipher-text" id="base64Data">
+                        <!-- Will be populated from step 1 -->
+                    </div>
+                    <p><strong>Hint:</strong> Decode the Base64 string to reveal the next layer.</p>
+                </div>
+                <input type="text" id="base64Answer" class="flag-input" placeholder="Enter decoded text">
+                <button class="submit-btn" onclick="checkStep2()">Submit Step 2</button>
+            </div>
+
+            <!-- Step 3: Caesar Cipher -->
+            <div id="caesarStep" class="step-content" style="display: none;">
+                <h2>Step 3: Caesar Cipher Decryption</h2>
+                <div class="hint-section">
+                    <h3>Encrypted Text</h3>
+                    <div class="cipher-text" id="caesarData">
+                        <!-- Will be populated from step 2 -->
+                    </div>
+                    <p><strong>Hint:</strong> The Caesar cipher shifts each letter by a fixed amount. Try shifts from 1-25.</p>
+                    <div style="margin: 20px 0;">
+                        <label for="caesarShift">Shift Amount:</label>
+                        <input type="number" id="caesarShift" min="1" max="25" value="13" style="margin-left: 10px; padding: 5px;">
+                        <button class="download-btn" onclick="tryCaesarShift()">Try Shift</button>
+                    </div>
+                    <div id="caesarResult" style="background: rgba(0, 255, 65, 0.1); padding: 10px; border-radius: 5px; margin: 10px 0; min-height: 30px;"></div>
+                </div>
+                <input type="text" id="caesarAnswer" class="flag-input" placeholder="Enter decrypted text">
+                <button class="submit-btn" onclick="checkStep3()">Submit Step 3</button>
+            </div>
+
+            <!-- Step 4: XOR Decryption -->
+            <div id="xorStep" class="step-content" style="display: none;">
+                <h2>Step 4: XOR Decryption</h2>
+                <div class="hint-section">
+                    <h3>XOR Challenge</h3>
+                    <div class="cipher-text" id="xorData">
+                        <!-- Will be populated from step 3 -->
+                    </div>
+                    <p><strong>Hint:</strong> Use XOR with the key: 42 (decimal). Each character XOR 42.</p>
+                    <div style="margin: 20px 0;">
+                        <button class="download-btn" onclick="applyXor()">Apply XOR Key 42</button>
+                    </div>
+                    <div id="xorResult" style="background: rgba(0, 255, 65, 0.1); padding: 10px; border-radius: 5px; margin: 10px 0; min-height: 30px;"></div>
+                </div>
+                <input type="text" id="xorAnswer" class="flag-input" placeholder="Enter final flag (format: PPG{...})">
+                <button class="submit-btn" onclick="checkStep4()">Submit Final Flag</button>
+            </div>
+
+            <!-- Success Section -->
+            <div id="successSection" style="display: none; text-align: center; padding: 40px;">
+                <h2 style="color: var(--success-color);">🎉 Challenge Complete!</h2>
+                <p>Congratulations! You've successfully completed all layers of the advanced challenge.</p>
+                <button class="download-btn" onclick="copyFinalFlag()">Copy Final Flag</button>
+                <button class="download-btn" onclick="window.close()">Close Window</button>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 PPG Arts and Science College - Department of Computer Science</p>
+        </footer>
+    </div>
+
+    <script>
+        // Challenge data for each step
+        const challengeData = {
+            step1Answer: "PPG{@Dvanced_Challenge_Successful_Profitable_Encoding_Supersecret_Messages_Hidden_These_Different_Thanother_Superior_Encoding_Supersecret_Hidden_}",
+            step2Answer: "WKVY@C@HOVRXGHVXOWRIWKHLVFRUUHFWZD\WRUHDOWKLVLVDWWDFNFKDOOHQJH",
+            step3Answer: "THIS@IS@THE@RESULT@OF@THIS@IS@ATTACK@CHALLENGE",
+            step4Answer: "PPG{ADVANCED_CHALLENGE_COMPLETE}"
+        };
+
+        let currentStep = 1;
+        let solvedSteps = [];
+
+        function showMessage(message, type = 'info') {
+            const messageDiv = document.getElementById('advancedMessage');
+            messageDiv.innerHTML = `<div class="message ${type}">${message}</div>`;
+            setTimeout(() => {
+                messageDiv.innerHTML = '';
+            }, 5000);
+        }
+
+        function updateProgress() {
+            const progress = (solvedSteps.length / 4) * 100;
+            document.getElementById('advancedProgress').style.width = progress + '%';
+            
+            // Update step indicators
+            for (let i = 1; i <= 4; i++) {
+                const stepElement = document.getElementById('step' + i);
+                stepElement.classList.remove('active', 'completed');
+                if (solvedSteps.includes(i)) {
+                    stepElement.classList.add('completed');
+                } else if (i === currentStep) {
+                    stepElement.classList.add('active');
+                }
+            }
+        }
+
+        function checkStep1() {
+            const answer = document.getElementById('binaryAnswer').value.trim();
+            if (answer === challengeData.step1Answer) {
+                showMessage('✅ Correct! Moving to Step 2.', 'success');
+                solvedSteps.push(1);
+                currentStep = 2;
+                document.getElementById('base64Data').textContent = 'WKVY@C@HOVRXGHVXOWRIWKHLVFRUUHFWZD\WRUHDOWKLVLVDWWDFNFKDOOHQJH';
+                showStep(2);
+                updateProgress();
+            } else {
+                showMessage('❌ Incorrect. Please check your binary to ASCII conversion.', 'error');
+                document.getElementById('binaryAnswer').classList.add('shake');
+                setTimeout(() => {
+                    document.getElementById('binaryAnswer').classList.remove('shake');
+                }, 500);
+            }
+        }
+
+        function checkStep2() {
+            const answer = document.getElementById('base64Answer').value.trim();
+            if (answer === challengeData.step2Answer) {
+                showMessage('✅ Excellent! Moving to Step 3.', 'success');
+                solvedSteps.push(2);
+                currentStep = 3;
+                document.getElementById('caesarData').textContent = challengeData.step2Answer;
+                showStep(3);
+                updateProgress();
+            } else {
+                showMessage('❌ Incorrect. Please check your Base64 decoding.', 'error');
+                document.getElementById('base64Answer').classList.add('shake');
+                setTimeout(() => {
+                    document.getElementById('base64Answer').classList.remove('shake');
+                }, 500);
+            }
+        }
+
+        function tryCaesarShift() {
+            const shift = parseInt(document.getElementById('caesarShift').value);
+            const text = document.getElementById('caesarData').textContent;
+            const result = caesarDecryption(text, shift);
+            document.getElementById('caesarResult').textContent = result;
+        }
+
+        function caesarDecryption(text, shift) {
+            return text.replace(/[A-Z]/g, char => {
+                const code = char.charCodeAt(0);
+                const shifted = ((code - 65 - shift + 26) % 26) + 65;
+                return String.fromCharCode(shifted);
+            }).replace(/[a-z]/g, char => {
+                const code = char.charCodeAt(0);
+                const shifted = ((code - 97 - shift + 26) % 26) + 97;
+                return String.fromCharCode(shifted);
+            });
+        }
+
+        function checkStep3() {
+            const answer = document.getElementById('caesarAnswer').value.trim();
+            if (answer === challengeData.step3Answer) {
+                showMessage('✅ Great! Final step ahead.', 'success');
+                solvedSteps.push(3);
+                currentStep = 4;
+                document.getElementById('xorData').textContent = challengeData.step3Answer;
+                showStep(4);
+                updateProgress();
+            } else {
+                showMessage('❌ Incorrect. Try different shift values (1-25).', 'error');
+                document.getElementById('caesarAnswer').classList.add('shake');
+                setTimeout(() => {
+                    document.getElementById('caesarAnswer').classList.remove('shake');
+                }, 500);
+            }
+        }
+
+        function applyXor() {
+            const text = document.getElementById('xorData').textContent;
+            const result = xorDecryption(text, 42);
+            document.getElementById('xorResult').textContent = result;
+        }
+
+        function xorDecryption(text, key) {
+            return text.split('').map(char => {
+                return String.fromCharCode(char.charCodeAt(0) ^ key);
+            }).join('');
+        }
+
+        function checkStep4() {
+            const answer = document.getElementById('xorAnswer').value.trim();
+            if (answer === challengeData.step4Answer) {
+                showMessage('🎉 Congratulations! Challenge completed!', 'success');
+                solvedSteps.push(4);
+                updateProgress();
+                
+                // Store in localStorage for main page
+                localStorage.setItem('advancedChallengeSolved', 'true');
+                localStorage.setItem('advancedChallengeFlag', answer);
+                
+                // Show success section
+                document.querySelectorAll('.step-content').forEach(el => el.style.display = 'none');
+                document.getElementById('successSection').style.display = 'block';
+                currentStep = 5;
+            } else {
+                showMessage('❌ Incorrect. Apply XOR with key 42 to the previous result.', 'error');
+                document.getElementById('xorAnswer').classList.add('shake');
+                setTimeout(() => {
+                    document.getElementById('xorAnswer').classList.remove('shake');
+                }, 500);
+            }
+        }
+
+        function showStep(step) {
+            // Hide all steps
+            document.querySelectorAll('.step-content').forEach(el => el.style.display = 'none');
+            document.getElementById('successSection').style.display = 'none';
+            
+            // Show current step
+            switch(step) {
+                case 1:
+                    document.getElementById('binaryStep').style.display = 'block';
+                    break;
+                case 2:
+                    document.getElementById('base64Step').style.display = 'block';
+                    break;
+                case 3:
+                    document.getElementById('caesarStep').style.display = 'block';
+                    break;
+                case 4:
+                    document.getElementById('xorStep').style.display = 'block';
+                    break;
+            }
+        }
+
+        function copyFinalFlag() {
+            const flag = challengeData.step4Answer;
+            navigator.clipboard.writeText(flag).then(() => {
+                showMessage('Flag copied to clipboard!', 'success');
+            }).catch(() => {
+                showMessage('Failed to copy flag', 'error');
+            });
+        }
+
+        // Initialize
+        updateProgress();
+        
+        // Anti-cheat measures
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        document.addEventListener('selectstart', event => event.preventDefault());
+        document.addEventListener('dragstart', event => event.preventDefault());
+        
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && (e.key === 'c' || e.key === 'v' || e.key === 'x' || e.key === 'a')) {
+                e.preventDefault();
+            }
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
